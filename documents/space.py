@@ -5,10 +5,11 @@ import math
 class Joueur() : # classe pour créer le vaisseau du joueur
     def __init__(self) :
         self.position = 400
-        self.image = pygame.image.load("vaisseau.png")
+        self.image = pygame.image.load("space-ship.png")
         self.sens = "O"
         self.vitesse = 5
         self.score = 0
+        
 
     def deplacer(self) :
         if (self.sens == "droite") and (self.position < 740):
@@ -21,6 +22,8 @@ class Joueur() : # classe pour créer le vaisseau du joueur
         
     def marquer(self):
         self.score = self.score + 1
+        
+    
 
 class Balle() :
     def __init__(self, tireur):
@@ -30,7 +33,7 @@ class Balle() :
         self.image = pygame.image.load("balle.png")
         self.etat = "chargee"
         self.vitesse = 5
-    
+        
     def bouger(self):
         if self.etat == "chargee":
             self.depart = self.tireur.position + 16
@@ -45,6 +48,7 @@ class Balle() :
         if (math.fabs(self.hauteur - vaisseau.hauteur) < 40) and (math.fabs(self.depart - vaisseau.depart) < 40):
             self.etat = "chargee"
             return True
+        
   
 class Ennemi():
     NbEnnemis = 6
@@ -52,29 +56,54 @@ class Ennemi():
     def __init__(self):
         self.depart = random.randint(1,700)
         self.hauteur = 10
-        self.type = random.randint(1,2)
+        self.type = random.randint(1,5)
+        self.niveau = 0 
+            
         if  (self.type == 1):
             self.image = pygame.image.load("invader1.png")
             self.vitesse = 1
         elif (self.type ==2):
             self.image = pygame.image.load("invader2.png")
             self.vitesse = 2
+        elif (self.type ==3):
+            self.image = pygame.image.load("invader3.png")
+            self.vitesse = 3
+        elif (self.type ==4):
+            self.image = pygame.image.load("invader4.png")
+            self.vitesse = 4
+        elif (self.type ==5):
+            self.image = pygame.image.load("invader5.png")
+            self.vitesse = 5
+        
             
+    def mes_niveaux(self):
+        self.niveau+=1         
+        
+    
+        
     def avancer(self):
         self.hauteur = self.hauteur + self.vitesse
     
     def disparaitre(self):
         self.depart = random.randint(1,700)
         self.hauteur = 10
-        self.type = random.randint(1,2)
+        self.type = random.randint(1,5)
+        
         if  (self.type == 1):
             self.image = pygame.image.load("invader1.png")
             self.vitesse = 1
         elif (self.type ==2):
             self.image = pygame.image.load("invader2.png")
             self.vitesse = 2
+        elif (self.type ==3):
+            self.image = pygame.image.load("invader3.png")
+            self.vitesse = 3
+        elif (self.type ==4):
+            self.image = pygame.image.load("invader4.png")
+            self.vitesse = 4
+        elif (self.type ==5):
+            self.image = pygame.image.load("invader5.png")
+            self.vitesse = 5
+
         
-    
-
-
-
+        
