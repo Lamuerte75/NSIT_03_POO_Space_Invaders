@@ -1,7 +1,7 @@
 import pygame # importation de la librairie pygame
 import space
 import sys # pour fermer correctement l'application
-
+import time 
 # lancement des modules inclus dans pygame
 pygame.init() 
 
@@ -10,13 +10,23 @@ screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Space Invaders") 
 # chargement de l'image de fond
 fond = pygame.image.load('background.png')
-
+fond2 = pygame.image.load('fond2.png') #Utiliser quand le joueur a 5 points de score
+fond2 = pygame.transform.scale(fond2, (800,600))
+fond3 = pygame.image.load('fond3.png') #Utiliser quand le joueur a 10 ou 15points point de score 
+fond3 = pygame.transform.scale(fond3, (800,600))
 # creation du joueur
 player = space.Joueur()
 # creation de la balle
+police = pygame.font.SysFont("arial", 15) # créatin d'une police
+victoire = pygame.font.SysFont("arial",90)
+police_niveau = pygame.font.SysFont("arial", 15)
+#police_pdv = pygame.font.SysFont("arial",15)
+victoire_x = -100
+texte_victoire = victoire.render("VICTOIRE !!!",True,"yellow")
 tir = space.Balle(player)
 tir.etat = "chargee"
 # creation des ennemis
+joueur_niveau = space.Ennemi()
 listeEnnemis = []
 for indice in range(space.Ennemi.NbEnnemis):
     vaisseau = space.Ennemi()
@@ -28,7 +38,7 @@ running = True # variable pour laisser la fenêtre ouverte
 while running : # boucle infinie pour laisser la fenêtre ouverte
     # dessin du fond
     screen.blit(fond,(0,0))
-
+    
     ### Gestion des événements  ###
     for event in pygame.event.get(): # parcours de tous les event pygame dans cette fenêtre
         if event.type == pygame.QUIT : # si l'événement est le clic sur la fermeture de la fenêtre
@@ -45,13 +55,58 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
                 player.tirer()
                 tir.etat = "tiree"
 
+    if player.score == 5:
+        joueur_niveau.mes_niveaux()
+        for indice in range(space.Ennemi.NbEnnemis*2):
+            vaisseau = space.Ennemi()
+            listeEnnemis.append(vaisseau)
+            
+    if player.score == 10:
+        for indice in range(space.Ennemi.NbEnnemis*3):
+            vaisseau = space.Ennemi()
+            listeEnnemis.append(vaisseau)
+            
+    if player.score == 15:
+        for indice in range(space.Ennemi.NbEnnemis*4):
+            vaisseau = space.Ennemi()
+            listeEnnemis.append(vaisseau)
+        
+        
+            
+        
+    if 5 <= player.score < 10:
+        screen.blit(fond2,(0,0))
+
+    if player.score >= 10:
+        screen.blit(fond3, (0,0))
+    
     ### Actualisation de la scene ###
     # Gestions des collisions
     for ennemi in listeEnnemis:
         if tir.toucher(ennemi):
             ennemi.disparaitre()
             player.marquer()
-    print(f"Score = {player.score} points")
+    
+    texte = police.render(f"Score = {player.score} points",True,"red") # information de la police 
+    texte_niveaux = police_niveau.render(f"Niveau = Level {joueur_niveau.niveau}",True,"red")
+    #texte_pdv = police_pdv.render(f"Points de vie = {?} pdv ",True,"red")
+    screen.blit(texte,(700,10))
+    screen.blit(texte_niveaux,(700,35))
+    #screen.blit(texte_pdv,(685,50))
+    
+   
+        
+    if player.score >= 20:
+        
+        if victoire_x!=270:
+            time.sleep(1)
+            victoire_x+=135
+            screen.blit(texte_victoire, (victoire_x,249))
+            
+        if victoire_x >=750:
+            victoire_x=-100
+        
+        
     # placement des objets
     # le joueur
     player.deplacer()
@@ -62,6 +117,7 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
     # les ennemis
     for ennemi in listeEnnemis:
         ennemi.avancer()
-        screen.blit(ennemi.image,[ennemi.depart, ennemi.hauteur]) # appel de la fonction qui dessine le vaisseau du joueur
         
+        screen.blit(ennemi.image,[ennemi.depart, ennemi.hauteur]) # appel de la fonction qui dessine le vaisseau du joueur
+     
     pygame.display.update() # pour ajouter tout changement à l'écran
