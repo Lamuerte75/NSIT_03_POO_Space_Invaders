@@ -11,9 +11,8 @@ pygame.display.set_caption("Space Invaders")
 # chargement de l'image de fond
 fond = pygame.image.load('background.png')
 fond2 = pygame.image.load('fond2.png') #Utiliser quand le joueur a 5 points de score
-fond2 = pygame.transform.scale(fond2, (800,600))
 fond3 = pygame.image.load('fond3.png') #Utiliser quand le joueur a 10 ou 15points point de score 
-fond3 = pygame.transform.scale(fond3, (800,600))
+
 # creation du joueur
 player = space.Joueur()
 # creation de la balle
