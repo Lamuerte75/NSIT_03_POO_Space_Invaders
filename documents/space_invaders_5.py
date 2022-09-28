@@ -36,7 +36,7 @@ running = True # variable pour laisser la fenêtre ouverte
 
 while running : # boucle infinie pour laisser la fenêtre ouverte
     # dessin du fond
-    screen.blit(fond,(0,0))
+    screen.blit(fond2,(0,0))
     
     ### Gestion des événements  ###
     for event in pygame.event.get(): # parcours de tous les event pygame dans cette fenêtre
@@ -74,7 +74,7 @@ while running : # boucle infinie pour laisser la fenêtre ouverte
             
         
     if 5 <= player.score < 10:
-        screen.blit(fond2,(0,0))
+        screen.blit(fond,(0,0))
 
     if player.score >= 10:
         screen.blit(fond3, (0,0))
