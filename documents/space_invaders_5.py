@@ -4,7 +4,11 @@ import sys # pour fermer correctement l'application
 import time 
 # lancement des modules inclus dans pygame
 pygame.init() 
-
+"""
+https://pixabay.com/fr/music/
+bruitage = pygame.mixer.Sound("audio/bruitage.mp3")
+bruitage.play()
+"""
 # création d'une fenêtre de 800 par 600
 screen = pygame.display.set_mode((800,600))
 pygame.display.set_caption("Space Invaders") 
